@@ -8,8 +8,8 @@ add_compile_options(-std=c++20)
 link_libraries(ncursesw)
 
 # 实验1
-aux_source_directory("./experiment_1/src" EXP_1_SRC)
-add_executable(experiment_1 ${EXP_1_SRC} )
+add_executable(experiment_1 experiment_1/src/main.cpp )
+add_executable(experiment_1_plain experiment_1/src/plain.cpp )
 # ...
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
