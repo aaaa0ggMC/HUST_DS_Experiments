@@ -5,13 +5,11 @@ project(ds_experiments)
 include_directories(./shared)
 # C++20应该Window那边MINGW也支持了吧?
 add_compile_options(-std=c++20)
-link_libraries(ncursesw)
 # 一些define
 add_definitions( -DALIB5_NO_STACKTRACE )
 
 # 实验1
 add_executable(experiment_1 experiment_1/src/main.cpp )
-add_executable(experiment_1_plain experiment_1/src/plain.cpp )
 # ...
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

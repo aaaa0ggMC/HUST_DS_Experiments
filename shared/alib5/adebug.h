@@ -152,7 +152,7 @@ namespace alib5{
 #else
 #define vpanicf_if(COND,STR,...) do {if(COND){vpanicf(STR,__VA_ARGS__);}} while(0)
 #define panic_if(COND,ARG) do {if(COND){panic(ARG);}} while(0)
-#define panicf_if(COND,STR,...) do {if(COND){panicf(STR,__VA_ARGS__);}} while(0);
+#define panicf_if(COND,STR,...) do {if(COND){panicf(STR,__VA_ARGS__);}} while(0)
 #endif
 
 #ifdef NDEBUG

@@ -27,7 +27,7 @@ namespace alib5::ds{
     /// 所有线性表共有的访问逻辑
     struct LinearListTraits : public BasicTraits{
         /// 偏移量，一般是0,也就是0-based访问，也可以是1-based
-        /// 默认值：0
+        /// 默认值：0 ，如果选择1-based,值为-1
         int offset;
 
         constexpr LinearListTraits(){

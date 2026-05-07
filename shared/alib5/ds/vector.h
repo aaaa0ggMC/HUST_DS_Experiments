@@ -35,7 +35,7 @@ namespace alib5::ds{
 
         Alloc allocator;
 
-        Vector(const Allocator & alloc = std::allocator<T>()):allocator(alloc){}
+        Vector(const Allocator & alloc = Allocator()):allocator(alloc){}
         Vector(Allocator && alloc):allocator(std::move(alloc)){}
     
         /// 预留空间，capacity可以小于当前的capacity，效果等于shrink
@@ -92,7 +92,7 @@ namespace alib5::ds{
             { fn(data,val) } -> std::convertible_to<bool>; 
         }
         T* find(Tp && value,CompareFn && fn){
-            return const_cast<T*>((const Vector &)(*this).find(
+            return const_cast<T*>(((const Vector &)(*this)).find<Tp>(
                 std::forward<Tp>(value),
                 std::forward<CompareFn>(fn)
             ));
@@ -154,6 +154,15 @@ namespace alib5::ds{
         T pop_front(){
             return std::move(remove(begin()));
         }
+        /// 清除所有数控
+        void clear(){
+            if(!std::is_trivially_destructible_v<T>){
+                for(size_t i = 0;i < m_length;++i){
+                    m_data[i].~T();
+                }
+            }
+            m_length = 0;
+        }
         
         //// 元素访问
         /// 访问不存在的index的时候返回nullptr
@@ -172,7 +181,7 @@ namespace alib5::ds{
             return *ptr;
         }
         T& operator[](int index){
-            return const_cast<T&>((const Vector &)(*this)[index]);
+            return const_cast<T&>(((const Vector &)(*this))[index]);
         }
 
         /// 这里都是基于0-based的方法，下划线开头
@@ -181,7 +190,7 @@ namespace alib5::ds{
             return &m_data[index];
         }
         T* _at(int index){
-            return const_cast<T*>((const Vector &)(*this)._at(
+            return const_cast<T*>(((const Vector &)(*this))._at(
                 index
             ));
         }
@@ -190,7 +199,7 @@ namespace alib5::ds{
         /// 删除对应位置的元素
         void _erase(int index);
         // index越界报错
-        void _panic_bounds(int index){
+        void _panic_bounds(int index) const {
             if constexpr(traits.throw_exception_instead_of_panic){
                 throw std::out_of_range("Index out of bounds!");
             }else{
