@@ -53,6 +53,16 @@ namespace alib5::algo::sort{
         std::random_access_iterator<T> ||
         std::is_pointer_v<T>;
 
+    template<class T> concept IsRandomAccessIterator = 
+        std::random_access_iterator<T> ||
+        std::is_pointer_v<T>;
+
+    /// 支持随机访问和forward访问
+    template<class T> concept IsGenericIterator = 
+        std::forward_iterator<T> ||
+        std::random_access_iterator<T> ||
+        std::is_pointer_v<T>;
+
     /// @brief 基础的插入排序，时间复杂度O(n^2)   Tier: D
     /// @param begin   开始
     /// @param end     结束

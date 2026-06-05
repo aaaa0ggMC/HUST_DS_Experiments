@@ -46,6 +46,10 @@ namespace alib5::ds{
             min_capacity = 4;
         }
     };
+
+    /// 链表traits
+    struct ForwardListTraits : public LinearListTraits {
+    };
 };
 
 #endif

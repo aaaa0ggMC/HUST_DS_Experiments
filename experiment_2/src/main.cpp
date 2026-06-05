@@ -1,7 +1,7 @@
 /**
  * @file main.cpp
  * @author aaaa0ggmc (lovelinux@yslwd.eu.org)
- * @brief 线性表
+ * @brief 链表
  * @version 5.0
  * @date 2026-06-05
  * 
@@ -11,12 +11,13 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include <hust_ds/sq_list.h>
+#include <hust_ds/fwd_list.h>
+#include <alib5/ds/vector.h> // 需要用到 Vector 来做多表管理
 
-using namespace hust_ds::sq_list;
+using namespace hust_ds::fwd_list;
 
 struct TableInstance{
-    Vector<char> name;
+    alib5::ds::Vector<char> name;
     List list = nullptr;
 
     // 默认构造，Vector内部会自行初始化
@@ -28,7 +29,7 @@ struct TableInstance{
 class App{
 private:
     // 管理层也使用自家的 Vector
-    Vector<TableInstance> tables;
+    alib5::ds::Vector<TableInstance> tables;
     int active_idx = -1;
 
     void pause(){
@@ -42,14 +43,13 @@ private:
     }
 
     // 辅助：将 std::string 转为 Vector<char>
-    void set_name(Vector<char>& vec, const std::string& str){
+    void set_name(alib5::ds::Vector<char>& vec, const std::string& str){
         vec.clear();
         for(char c : str) vec.push_back(c);
         vec.push_back('\0'); // 方便后续逻辑或调试
     }
 
-    // 辅助：打印 Vector<char>
-    void print_name(const Vector<char>& vec){
+    void print_name(const alib5::ds::Vector<char>& vec){
         for(const char& c : vec) if(c != '\0') std::cout << c;
     }
 
@@ -58,7 +58,7 @@ public:
         std::string cmd;
         while(true){
             system("cls || clear");
-            std::cout << "=== [ Multi-Table Manager ] ===\n";
+            std::cout << "=== [ Multi-Table Manager (Linked List) ] ===\n";
             if(tables.empty()) std::cout << " (No tables created)\n";
             else {
                 for(int i = 0; i < (int)tables.size(); ++i){
@@ -74,7 +74,7 @@ public:
                       << " 5. Length    6. GetElem   7. Locate    8. Prior\n"
                       << " 9. Next     10. Insert   11. Delete   12. Traverse\n"
                       << "-----------------------------------------------\n"
-                      << " 13. MaxSubSum  14. SubSumK  15. Sort  16. Save  17. Load\n"
+                      << " 13. Reverse  14. RmNthEnd 15. Sort     16. Save  17. Load\n"
                       << " 0. Exit\n"
                       << "-----------------------------------------------\n"
                       << "Choice: ";
@@ -116,7 +116,7 @@ public:
 
     void handle_op(int op){
         if(active_idx == -1 && op != 0){ std::cout << "Create a table entry first!\n"; pause(); return; }
-        Status s; int i, k; Type e, res; std::string path;
+        Status s; int i; Type e, res; std::string path;
 
         switch(op){
             case 1: std::cout << "Init: " << (int)InitList(curr()) << "\n"; break;
@@ -163,15 +163,26 @@ public:
                 ListTraverse(curr(), [](const Type& v){ std::cout << v << " "; });
                 std::cout << "]\n"; break;
             case 13: 
-                if(ListLength(curr()) > 0) std::cout << "Max SubArray Sum: " << MaxSubArray(curr()) << "\n";
-                else std::cout << "List is empty!\n";
+                if(ReverseList(curr()) == Status::OK){
+                    std::cout << "List reversed. Current Data: [ ";
+                    ListTraverse(curr(), [](const Type& v){ std::cout << v << " "; });
+                    std::cout << "]\n";
+                } else std::cout << "List not initialized!\n";
                 break;
             case 14: 
-                std::cout << "Target sum K: "; std::cin >> k;
-                std::cout << "Count: " << SubArrayNum(curr(), k) << "\n";
+                std::cout << "N from end to remove: "; std::cin >> i;
+                if(RemoveNthFromEnd(curr(), i) == Status::OK){
+                    std::cout << "Removed. Current Data: [ ";
+                    ListTraverse(curr(), [](const Type& v){ std::cout << v << " "; });
+                    std::cout << "]\n";
+                } else std::cout << "List not initialized!\n";
                 break;
             case 15: 
-                if(SortList(curr()) == Status::OK) std::cout << "Sorted using Shell(Knuth).\n";
+                if(SortList(curr()) == Status::OK){
+                    std::cout << "Sorted using Bubble Sort (pointer swap). Current Data: [ ";
+                    ListTraverse(curr(), [](const Type& v){ std::cout << v << " "; });
+                    std::cout << "]\n";
+                } else std::cout << "List not initialized!\n";
                 break;
             case 16: 
                 std::cout << "Save to path: "; std::cin >> path;

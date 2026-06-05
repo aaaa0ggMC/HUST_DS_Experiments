@@ -10,6 +10,16 @@ add_definitions( -DALIB5_NO_STACKTRACE )
 
 # 实验1
 add_executable(experiment_1 experiment_1/src/main.cpp )
-# ...
+# 实验2
+add_executable(experiment_2 experiment_2/src/main.cpp )
+# 实验3
+add_executable(experiment_3 
+    experiment_3/src/main.cpp
+)
+# 实验4
+add_executable(experiment_4 
+    experiment_4/src/main.cpp
+)
+
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

@@ -3,7 +3,7 @@
  * @author aaaa0ggmc (lovelinux@yslwd.eu.org)
  * @brief 目标是提供简单可用的错误判断，适合我这种一般不调试的人
  * @version 5.0
- * @date 2026/04/07
+ * @date 2026/05/07
  * 
  * @copyright Copyright(c)2025 aaaa0ggmc
  * 
@@ -152,7 +152,7 @@ namespace alib5{
 #else
 #define vpanicf_if(COND,STR,...) do {if(COND){vpanicf(STR,__VA_ARGS__);}} while(0)
 #define panic_if(COND,ARG) do {if(COND){panic(ARG);}} while(0)
-#define panicf_if(COND,STR,...) do {if(COND){panicf(STR,__VA_ARGS__);}} while(0)
+#define panicf_if(COND,STR,...) do {if(COND){panicf(STR,__VA_ARGS__);}} while(0);
 #endif
 
 #ifdef NDEBUG
