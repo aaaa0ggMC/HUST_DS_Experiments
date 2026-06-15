@@ -71,6 +71,49 @@ private:
                           << (BiTreeEmpty(trees[i].tree) ? "TRUE" : "FALSE") << "\n";
             }
         }
+        else if (cmd == "delete_tree") {
+            std::string target;
+            if (args >> target) {
+                int del_idx = -1;
+                // 1. 定位要删除的索引 (复用查找逻辑)
+                if (isdigit(target[0])) {
+                    del_idx = std::stoi(target) - 1; 
+                } else {
+                    for (int i = 0; i < (int)trees.size(); ++i) {
+                        if (trees[i].name == target) {
+                            del_idx = i;
+                            break;
+                        }
+                    }
+                }
+
+                // 2. 执行删除
+                if (del_idx >= 0 && del_idx < (int)trees.size()) {
+                    // 重要：先销毁二叉树内存，防止内存泄漏
+                    DestroyBiTree(trees[del_idx].tree);
+                    std::string deleted_name = trees[del_idx].name;
+                    trees.erase(trees.begin() + del_idx);
+                    
+                    std::cout << "Tree '" << deleted_name << "' has been removed.\n";
+
+                    // 3. 维护当前活跃索引 active_idx
+                    if (trees.empty()) {
+                        active_idx = -1;
+                    } else if (active_idx == del_idx) {
+                        // 如果删的是当前正在用的，就把指针指回第一个
+                        active_idx = 0;
+                        std::cout << "Active tree was deleted. Switched to '" << trees[active_idx].name << "'.\n";
+                    } else if (active_idx > del_idx) {
+                        // 如果删的是当前索引前面的，当前索引需要减1
+                        active_idx--;
+                    }
+                } else {
+                    std::cout << "Error: Tree '" << target << "' not found.\n";
+                }
+            } else {
+                std::cout << "Usage: delete_tree <index|name>\n";
+            }
+        }
         else if (cmd == "find_tree") {
             std::string name;
             if (args >> name) {
@@ -238,6 +281,7 @@ private:
                   << "[Multi-Tree Management] (Tree index is 1-based)\n"
                   << "  create_tree <name>                   : Create a new tree entry\n"
                   << "  list_trees                           : List all managed trees\n"
+                  << "  delete_tree <index|name>             : Delete a tree entry and free memory\n"
                   << "  find_tree <name>                     : Find a tree's index by name\n"
                   << "  switch_tree <index|name>             : Switch active tree by index or name\n"
                   << "\n[Basic Operations (on active tree)]\n"

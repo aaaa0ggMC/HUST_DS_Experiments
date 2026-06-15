@@ -1,0 +1,21 @@
+This repository contains work under two different licenses:
+
+1. THE TEMPLATE (Experimental_Report.cls, .bst, .cfg):
+   Licensed under the MIT License.
+   Copyright (c) 2018 skinaze.
+   (Includes modifications by aaaa0ggmc, 2026).
+
+2. THE REPORT CONTENT (Experimental_Report.tex, .bib, and original assets):
+   Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+   Copyright (c) 2026 aaaa0ggmc (RockonDreaming).
+
+   If you use my report as a reference, you MUST provide attribution
+   to aaaa0ggmc. Directly copying the text without credit is prohibited.
+
+3. THIRD-PARTY ASSETS:
+   - STZhongsong.ttf: Copyright belongs to SinoType. Not covered by
+     the licenses above. Provided for academic rendering only.
+
+------------------------------------------------------------------------------
+[Below this line, you can paste the full text of CC BY 4.0 or just link to it]
+Full CC BY 4.0 License: https://creativecommons.org/licenses/by/4.0/legalcode

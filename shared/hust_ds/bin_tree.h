@@ -157,7 +157,7 @@ namespace hust_ds::bin_tree {
 
     /// 返回二叉树的深度
     inline int BiTreeDepth(const Tree& T){
-        if(!T) throw std::runtime_error("Invalid tree,please init the tree first!");
+        if(!T) return 0;
         // 简单递归一下
         int ld = BiTreeDepth(T->left);
         int rd = BiTreeDepth(T->right);
@@ -259,7 +259,7 @@ namespace hust_ds::bin_tree {
     /// 前序遍历 root-left-right
     template <class VisitFn>
     inline void PreOrderTraverse(Tree T, VisitFn&& visit){
-        if(!T) throw std::runtime_error("Invalid tree,please init the tree first!");
+        if(!T) return;
         visit(T);
         PreOrderTraverse(T->left,  std::forward<VisitFn>(visit));
         PreOrderTraverse(T->right, std::forward<VisitFn>(visit));
@@ -269,7 +269,7 @@ namespace hust_ds::bin_tree {
     /// 中序遍历 left-root-right
     template <class VisitFn>
     inline void InOrderTraverse(Tree T, VisitFn&& visit){
-        if(!T) throw std::runtime_error("Invalid tree,please init the tree first!");
+        if(!T) return;
         InOrderTraverse(T->left,  std::forward<VisitFn>(visit));
         visit(T);
         InOrderTraverse(T->right, std::forward<VisitFn>(visit));
@@ -279,7 +279,7 @@ namespace hust_ds::bin_tree {
     /// 后序遍历(非递归) left-right-root 
     template <class VisitFn>
     inline void PostOrderTraverse(Tree T, VisitFn&& visit){
-        if(!T) throw std::runtime_error("Invalid tree,please init the tree first!");
+        if(!T) return;
         // 模拟栈，这里使用std::stack进行模拟
         std::stack<Node*> stk;
         // 当前位置
@@ -315,7 +315,7 @@ namespace hust_ds::bin_tree {
     /// 层序遍历 depth(0 to ...)
     template <class VisitFn>
     inline void LevelOrderTraverse(Tree T, VisitFn&& visit){
-        if(!T) throw std::runtime_error("Invalid tree,please init the tree first!");
+        if(!T) return;
         std::queue<Node*> q;
         q.push(T);
 
@@ -378,7 +378,7 @@ namespace hust_ds::bin_tree {
 
     /// 反转树
     inline void InvertTree(Tree T){
-        if(!T) throw std::runtime_error("Invalid tree,please init the tree first!");
+        if(!T) return;
         
         std::swap(T->left, T->right);
         InvertTree(T->left);

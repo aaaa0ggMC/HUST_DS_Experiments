@@ -345,7 +345,7 @@ namespace hust_ds::graph {
     /// DFS遍历
     template <class VisitFn>
     inline void DFSTraverse(Graph G, VisitFn&& visit){
-        if(!G) throw std::runtime_error("DFSTraverse: Graph is null.");
+        if(!G) return;
         if(G->vertices.empty()) return;
 
         /// 因为我无法知道层序关系，所以需要visited来排除"children"
@@ -376,7 +376,7 @@ namespace hust_ds::graph {
     /// BFS遍历
     template <class VisitFn>
     inline void BFSTraverse(Graph G, VisitFn&& visit){
-        if(!G) throw std::runtime_error("BFSTraverse: Graph is null.");
+        if(!G) return;
         if(G->vertices.empty()) return;
 
         std::vector<bool> visited(G->vertices.size(), false);
